@@ -59,7 +59,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
     </nav>
     <?php } ?>
     <!-- Model - Edit -->
-    <div id="modal_edit" class="modal" role="dialog">
+    <div id="modal_edit" class="modal show" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -67,7 +67,10 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
             <h4 class="modal-title"></h4>
           </div>
           <div class="modal-body">
-            <p>One fine body…</p>
+            <div class="d-flex justify-content-center">
+              <i class="fa fa-circle-o-notch fa-spin"></i>
+              <label>Please hold a moment!</label>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
