@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-offset-3 col-lg-6">
-    <h1 style="margin-left: 20px; margin-bottom: 20px">Hospital Management System</h1>
+    <h1 style="margin-left: 20px; margin-bottom: 20px">Health Care Hospital</h1>
   </div>
 </div>
 <div class="row">
