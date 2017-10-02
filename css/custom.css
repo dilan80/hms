@@ -1,3 +1,25 @@
 .modal-backdrop {
   background-color: rgba(255,255,255, 0.5);
 }
+
+.all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog {
+  overflow-y: initial !important
+}
+.modal-body.form {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.modal-body #content {
+  height: 100%;
+}
+
+/* .modal-body .alert {
+  margin-top: 100px;
+} */

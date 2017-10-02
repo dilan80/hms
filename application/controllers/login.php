@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class login extends CI_Controller {
 
 	public function __construct() {
-    parent::__construct();
+		parent::__construct();
+		$this->load->library('session');
+    $this->load->helper('cookie');
 		$this->load->helper('form');
 		$this->load->model('userModel', '', TRUE);
 		$this->load->helper('url');
@@ -13,8 +15,6 @@ class login extends CI_Controller {
 	public function index() {
 		$data['title'] = "Sign In";
 		$message = array();
-
-		var_dump(get_cookie('auth'));
 		
 		if ($this->input->post('u') && $this->input->post('p')) {
 			if (trim($this->input->post('u')) === '' || trim($this->input->post('p')) === '') {
@@ -28,5 +28,11 @@ class login extends CI_Controller {
 		}
 		$data['content'] = $this->load->view('login', $message, TRUE);
 		$this->load->view('page', $data);
+	}
+
+	public function out() {
+		$this->session->sess_destroy();
+		delete_cookie('auth');
+		redirect('login');
 	}
 }

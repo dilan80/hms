@@ -60,7 +60,7 @@ CREATE TABLE `patient` (
   `gurdian` varchar(250) NOT NULL,
   `address` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
+INSERT INTO `patient` VALUES (1,'awdawd','123',23,1,1,'12312313','my name','aw da dawdad,\nawd aw dd a');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +94,7 @@ CREATE TABLE `user` (
   `spec` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,18 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'a','0cc175b9c0f1b6a831c399e269772661','Chathuranga','Hashan',0,'942730454V',24,'53/60,\r\nSeethalena road,\r\nAvissawella',1,'');
+INSERT INTO `user` VALUES (1,'a','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (3,'dila','dilan6370','Chathuranga','Dilan',1,'19231823',23,'awdawawdadw,\nawdawdawd awd aw ,\nawdawdawda.',1,'');
+INSERT INTO `user` VALUES (6,'a3','0cc175b9c0f1b6a831c399e269772661','newawd awd ','updataw dawd',0,'',23,'New',0,'');
+INSERT INTO `user` VALUES (7,'a4','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (8,'a5','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (9,'a6','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (10,'a7','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (11,'a8','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (12,'a9','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
+INSERT INTO `user` VALUES (13,'b1','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
+INSERT INTO `user` VALUES (14,'b2','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
+INSERT INTO `user` VALUES (15,'b3','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -115,4 +127,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-30 20:28:26
+-- Dump completed on 2017-10-02  8:26:25
