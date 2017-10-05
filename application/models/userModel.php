@@ -28,10 +28,12 @@ class UserModel extends CI_Model {
     }
   }
 
-  public function count() {
+  public function count($keyword = '') {
     $q = $this->db
       ->select('COUNT(*) as count')
       ->from('user')
+      ->like('fname', $keyword)
+      ->or_like('lname', $keyword)
       ->get();
     if ($q->num_rows() > 0) {
       $r = $q->result();
@@ -43,11 +45,14 @@ class UserModel extends CI_Model {
     }
   }
 
-  public function fetch($page) {
+  public function fetch($page, $keyword = '') {
     $q = $this->db
-      ->select('id, fname, lname, nic, type')
+      ->select('id, fname, lname, nic, type, age, gender')
       ->from('user')
       ->limit(10, ($page - 1) * 10)
+      ->like('fname', $keyword)
+      ->or_like('lname', $keyword)
+      ->order_by('fname', 'ASC')
       ->get();
     if ($q->num_rows() > 0) {
       return $q->result();

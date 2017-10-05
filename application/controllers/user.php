@@ -29,9 +29,16 @@ class user extends CI_Controller {
     if ( null !== $this->uri->segment('3') ) {
       $message['page'] = $this->uri->segment('3');
     }
+
+    $message['kwd'] = '';
+    if ( null !== $this->uri->segment('4') ) {
+      $message['kwd'] = $this->uri->segment('4');
+    }
     
-    $message['count'] = $this->userModel->count();
-    $message['list'] = $this->userModel->fetch($message['page']);
+    $message['count'] = $this->userModel->count($message['kwd']);
+    $message['list'] = $this->userModel->fetch($message['page'], $message['kwd']);
+
+    $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
     
 		$data['content'] = $this->load->view('user/list', $message, TRUE);
 		$this->load->view('page', $data);

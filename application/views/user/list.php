@@ -1,6 +1,9 @@
-<?php $this->load->view('nav/admin', array('active' => 'user')); ?>
+<?php
+$this->load->view('nav/admin', array('active' => 'user', 'username' => $username));
+?>
 <?php
 $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attendent");
+$genders = array("0" => "Female", "1" => "Male");
 ?>
 <script>
   window.errorAlert = "<div class=\"alert alert-dismissible alert-danger\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button><p>{$ERR$}</p></div>";
@@ -129,18 +132,43 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
     })
     .catch(e => console.error(e));
   }
+  window.doSearch = () => {
+    const kwd = $("#search").val();
+    const path = '<?php echo base_url('user/index/' . $page . '/'); ?>';
+    window.location.replace(path + kwd);
+  }
+  $(document).ready(() => {
+    $("#search").keypress((e) => {
+      if(e.which == 13) {
+        doSearch();
+      }
+    });
+  });
 </script>
 <div class="row">
   <div class="col-md-offset-1 col-md-10">
     <!-- Controllers -->
     <div class="row">
       <div class="col-xs-12">
-        <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          Add New User
-        </button>
+        <div class="input-group">
+          <input value="<?php echo $kwd ?>" type="search" id="search" class="form-control">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default pull-right" onclick="doSearch()">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </span>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Add
+            </button>
+          </span>
+        </div>
+        
       </div>
     </div>
+    <br />
+    <br />
     <!-- Table -->
     <table id="users" class="table table-striped table-hover ">
       <thead>
@@ -149,6 +177,8 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
           <th>Name</th>
           <th>NIC</th>
           <th>Type</th>
+          <th>Age</th>
+          <th>Gender</th>
         </tr>
       </thead>
       <tbody>
@@ -158,6 +188,8 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
             <td><?php echo $u->fname . ' ' . $u->lname ?></td>
             <td><?php echo $u->nic ?></td>
             <td><?php echo $types[$u->type] ?></td>
+            <td><?php echo $u->age ?></td>
+            <td><?php echo $genders[$u->gender] ?></td>
             <td class="text-right">
               <button onclick="showEdit(<?php echo $u->id ?>)" type="button" class="btn btn-primary btn-xs">
                 <i class="fa fa-pencil" aria-hidden="true"></i>

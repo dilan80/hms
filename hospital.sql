@@ -30,7 +30,7 @@ CREATE TABLE `appointment` (
   `time` date NOT NULL,
   `meds` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
+INSERT INTO `appointment` VALUES (1,1,3,32,'2017-10-05','');
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `patient` (
   `gurdian` varchar(250) NOT NULL,
   `address` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +71,7 @@ CREATE TABLE `patient` (
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
 INSERT INTO `patient` VALUES (1,'awdawd','123',23,1,1,'12312313','my name','aw da dawdad,\nawd aw dd a');
+INSERT INTO `patient` VALUES (3,'hashan 2','chathu 2',23,0,34,'91239123v','amma','awaw awd ad,\nawdawdawdawd');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,8 +105,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'a','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (3,'dila','dilan6370','Chathuranga','Dilan',1,'19231823',23,'awdawawdadw,\nawdawdawd awd aw ,\nawdawdawda.',1,'');
+INSERT INTO `user` VALUES (1,'a2','0cc175b9c0f1b6a831c399e269772661','Chathuranga','Hashan',0,'345345',232,'New, \nuoda',1,'');
+INSERT INTO `user` VALUES (3,'dila','dilan6370','Chathuranga','Dilan',1,'19231823',23,'awdawawdadw,\nawdawdawd awd aw ,\nawdawdawda.',1,'Nerve Sergent');
 INSERT INTO `user` VALUES (6,'a3','0cc175b9c0f1b6a831c399e269772661','newawd awd ','updataw dawd',0,'',23,'New',0,'');
 INSERT INTO `user` VALUES (7,'a4','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
 INSERT INTO `user` VALUES (8,'a5','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
@@ -127,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-02  8:26:25
+-- Dump completed on 2017-10-05 23:08:26
