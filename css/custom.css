@@ -20,6 +20,17 @@
   height: 100%;
 }
 
-/* .modal-body .alert {
-  margin-top: 100px;
-} */
+.disabled {
+  pointer-events: none;
+}
+
+.selectize-control .title {
+  display: block;
+  color: #333;
+  font-weight: bold;
+}
+
+.selectize-control .description {
+  font-size: 10px;
+  color: #888;
+}
