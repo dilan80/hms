@@ -5,10 +5,12 @@ class PatientModel extends CI_Model {
     // Your own constructor code
   }
 
-  public function count() {
+  public function count($keyword) {
     $q = $this->db
       ->select('COUNT(*) as count')
       ->from('patient')
+      ->like('fname', $keyword)
+      ->or_like('lname', $keyword)
       ->get();
     if ($q->num_rows() > 0) {
       $r = $q->result();
@@ -20,11 +22,14 @@ class PatientModel extends CI_Model {
     }
   }
 
-  public function fetch($page) {
+  public function fetch($page, $keyword) {
     $q = $this->db
       ->select('id, fname, lname, nic, age')
       ->from('patient')
       ->limit(10, ($page - 1) * 10)
+      ->like('fname', $keyword)
+      ->or_like('lname', $keyword)
+      ->order_by('fname', 'ASC')
       ->get();
     if ($q->num_rows() > 0) {
       return $q->result();

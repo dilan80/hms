@@ -29,9 +29,16 @@ class patient extends CI_Controller {
     if ( null !== $this->uri->segment('3') ) {
       $message['page'] = $this->uri->segment('3');
     }
+
+    $message['kwd'] = '';
+    if ( null !== $this->uri->segment('4') ) {
+      $message['kwd'] = $this->uri->segment('4');
+    }
     
-    $message['count'] = $this->patientModel->count();
-    $message['list'] = $this->patientModel->fetch($message['page']);
+    $message['count'] = $this->patientModel->count($message['kwd']);
+    $message['list'] = $this->patientModel->fetch($message['page'], $message['kwd']);
+
+    $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
     
 		$data['content'] = $this->load->view('patient/list', $message, TRUE);
 		$this->load->view('page', $data);
@@ -62,14 +69,14 @@ class patient extends CI_Controller {
   public function update() {
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
-    if (isset($req->id) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
-      if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
+    if (isset($req->id) && isset($req->rmn) && isset($req->grd) && isset($req->fnm) && isset($req->lnm) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
+      if (array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->patientModel->update($req->id, array(
-          'username' => $req->u,
           'fname' => $req->fnm,
           'lname' => $req->lnm,
-          'type' => $req->typ,
           'nic' => $req->nic,
+          'gurdian' => $req->grd,
+          'room' => $req->rmn,
           'age' => $req->age,
           'address' => $req->add,
           'gender' => $req->gen,

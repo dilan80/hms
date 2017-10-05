@@ -1,4 +1,4 @@
-<?php $this->load->view('nav/admin', array('active' => 'patient')); ?>
+<?php $this->load->view('nav/admin', array('active' => 'patient', 'username' => $username)); ?>
 <?php
 $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attendent");
 ?>
@@ -103,6 +103,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
       add: $($("#modal_edit #add")[0]).val(),
       gen: $($("#modal_edit #gen")[0]).val()
     };
+    console.log(data, !data.id ? '<?php echo base_url('patient/insert'); ?>' : '<?php echo base_url('patient/update'); ?>');
     fetch(!data.id ? '<?php echo base_url('patient/insert'); ?>' : '<?php echo base_url('patient/update'); ?>', {
       credentials: 'same-origin',
       method: 'POST',
@@ -124,18 +125,43 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
     })
     .catch(e => console.error(e));
   }
+  window.doSearch = () => {
+    const kwd = $("#search").val();
+    const path = '<?php echo base_url('patient/index/' . $page . '/'); ?>';
+    window.location.replace(path + kwd);
+  }
+  $(document).ready(() => {
+    $("#search").keypress((e) => {
+      if(e.which == 13) {
+        doSearch();
+      }
+    });
+  });
 </script>
 <div class="row">
   <div class="col-md-offset-1 col-md-10">
     <!-- Controllers -->
     <div class="row">
       <div class="col-xs-12">
-        <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-          Add new patient
-        </button>
+        <div class="input-group">
+          <input value="<?php echo $kwd ?>" type="search" id="search" class="form-control">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default pull-right" onclick="doSearch()">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </span>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Add
+            </button>
+          </span>
+        </div>
+        
       </div>
     </div>
+    <br />
+    <br />
     <!-- Table -->
     <table id="patients" class="table table-striped table-hover ">
       <thead>
@@ -152,7 +178,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
             <td><?php echo $u->id ?></td>
             <td><?php echo $u->fname . ' ' . $u->lname ?></td>
             <td><?php echo $u->nic ?></td>
-            <td><?php echo $types[$u->type] ?></td>
+            <td><?php echo $u->age ?></td>
             <td class="text-right">
               <button onclick="showEdit(<?php echo $u->id ?>)" type="button" class="btn btn-primary btn-xs">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
