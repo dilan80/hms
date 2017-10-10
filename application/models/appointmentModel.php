@@ -79,11 +79,11 @@ class AppointmentModel extends CI_Model {
 
   public function get($id) {
     $q = $this->db
-      ->select('a.id as id, a.room as room, CONCAT(p.fname, " ", p.lname) as patient, p.id as patient_id, CONCAT(d.fname, " ", d.lname) as doc, d.id as doc_id, a.time as time, a.meds as meds')
+      ->select('a.id as id, a.room as room, CONCAT(p.fname, " ", p.lname) as patient, p.nic as patient_nic, p.id as patient_id, CONCAT(d.fname, " ", d.lname) as doc, d.spec as doc_spec, d.id as doc_id, a.time as time, a.meds as meds')
       ->from('appointment AS a')
       ->join('patient AS p', 'p.id = a.patient')
       ->join('user AS d', 'd.id = a.doc')
-      ->where('id', $id)
+      ->where('a.id', $id)
       ->get();
     if ($q->num_rows() > 0) {
       return $q->result()[0];

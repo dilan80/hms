@@ -12,15 +12,30 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <?php
+          if (!$this->session->has_userdata('type')) {
+            noPerm();
+          }
+          if (checkPerm($this->session->userdata('type'), 'u')) {
+        ?>
         <li<?php if (isset($active) && $active === 'user') { echo ' class="active"'; } ?>>
           <a href="<?php echo base_url('user/'); ?>">Users<?php if (isset($active) && $active = 'user') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
         </li>
+        <?php
+          }
+          if (checkPerm($this->session->userdata('type'), 'p')) {
+        ?>
         <li<?php if (isset($active) && $active === 'patient') { echo ' class="active"'; } ?>>
           <a href="<?php echo base_url('patient/'); ?>">Patients<?php if (isset($active) && $active = 'patient') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
         </li>
+        <?php
+          }
+          if (checkPerm($this->session->userdata('type'), 'a')) {
+        ?>
         <li<?php if (isset($active) && $active === 'appointment') { echo ' class="active"'; } ?>>
-          <a href="<?php echo base_url('appointment/'); ?>">Appointments<?php if (isset($active) && $active = 'patient') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
+          <a href="<?php echo base_url('appointment/'); ?>">Appointments<?php if (isset($active) && $active = 'appointment') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
         </li>
+        <?php } ?>
       </ul>
       <!-- <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Sign Out</a></li>

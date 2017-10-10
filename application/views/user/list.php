@@ -43,6 +43,18 @@ $genders = array("0" => "Female", "1" => "Male");
     .catch(e => console.error(e));
   }
   window.showAdd = () => {
+    $($("#modal_edit .modal-footer .btn-primary")[0]).removeClass("hidden");
+    $($("#modal_edit #id")[0]).prop("disabled", false);
+    $($("#modal_edit #u")[0]).prop("disabled", false);
+    $($("#modal_edit #p")[0]).prop("disabled", false);
+    $($("#modal_edit #fnm")[0]).prop("disabled", false);
+    $($("#modal_edit #lnm")[0]).prop("disabled", false);
+    $($("#modal_edit #typ")[0]).prop("disabled", false);
+    $($("#modal_edit #spec")[0]).prop("disabled", false);
+    $($("#modal_edit #nic")[0]).prop("disabled", false);
+    $($("#modal_edit #age")[0]).prop("disabled", false);
+    $($("#modal_edit #add")[0]).prop("disabled", false);
+    $($("#modal_edit #gen")[0]).prop("disabled", false);
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Add new user`);
     $($("#modal_edit #id")[0]).val('');
@@ -51,7 +63,8 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #p")[0]).parent().parent().removeClass("hidden");
     $($("#modal_edit #fnm")[0]).val('');
     $($("#modal_edit #lnm")[0]).val('');
-    $($("#modal_edit #typ")[0]).val('1');
+    $($("#modal_edit #typ")[0]).val('0');
+    $($("#modal_edit #spec")[0]).val('');
     $($("#modal_edit #nic")[0]).val('');
     $($("#modal_edit #age")[0]).val('');
     $($("#modal_edit #add")[0]).val('');
@@ -60,7 +73,77 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #content")[0]).removeClass("hidden");
     $("#modal_edit").modal('show');
   }
+  window.showView = (id) => {
+    $($("#modal_edit .modal-footer .btn-primary")[0]).addClass("hidden");
+    $($("#modal_edit #id")[0]).prop("disabled", true);
+    $($("#modal_edit #u")[0]).prop("disabled", true);
+    $($("#modal_edit #p")[0]).prop("disabled", true);
+    $($("#modal_edit #fnm")[0]).prop("disabled", true);
+    $($("#modal_edit #lnm")[0]).prop("disabled", true);
+    $($("#modal_edit #typ")[0]).prop("disabled", true);
+    $($("#modal_edit #spec")[0]).prop("disabled", true);
+    $($("#modal_edit #nic")[0]).prop("disabled", true);
+    $($("#modal_edit #age")[0]).prop("disabled", true);
+    $($("#modal_edit #add")[0]).prop("disabled", true);
+    $($("#modal_edit #gen")[0]).prop("disabled", true);
+    const elems = $(`#users #u_${id} td`);
+    const name = $(elems[1]).text();
+    
+    $("#modal_edit .error").html('');
+    $($("#modal_edit .modal-title")[0]).text(`View user "${name}"`);
+    $("#modal_edit").modal('show');
+    $($("#modal_edit #loader")[0]).removeClass("hidden");
+    $($("#modal_edit #content")[0]).addClass("hidden");
+    fetch('<?php echo base_url('user/get'); ?>', {
+      credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id })
+    })
+    .then((response) => response.json())
+    .then(d => {
+      if (!d.success) {
+        $("#modal_edit .error").html(window.errorAlert.replace("{$ERR$}", d.message));
+      } else {
+        $($("#modal_edit #id")[0]).val(d.data.id);
+        $($("#modal_edit #u")[0]).val(d.data.username);
+        $($("#modal_edit #p")[0]).val('');
+        $($("#modal_edit #p")[0]).parent().parent().addClass("hidden");
+        $($("#modal_edit #fnm")[0]).val(d.data.fname);
+        $($("#modal_edit #lnm")[0]).val(d.data.lname);
+        $($("#modal_edit #typ")[0]).val(d.data.type);
+        $($("#modal_edit #spec")[0]).val(d.data.spec);
+        if (d.data.type === '1') {
+          $($("#modal_edit .spec")[0]).show();
+        } else {
+          $($("#modal_edit .spec")[0]).hide();
+        }
+        $($("#modal_edit #nic")[0]).val(d.data.nic);
+        $($("#modal_edit #age")[0]).val(d.data.age);
+        $($("#modal_edit #add")[0]).val(d.data.address);
+        $($("#modal_edit #gen")[0]).val(d.data.gender);
+      }
+      $($("#modal_edit #loader")[0]).addClass("hidden");
+      $($("#modal_edit #content")[0]).removeClass("hidden");
+    })
+    .catch(e => console.error(e));
+  }
   window.showEdit = (id) => {
+    $($("#modal_edit .modal-footer .btn-primary")[0]).removeClass("hidden");
+    $($("#modal_edit #id")[0]).prop("disabled", false);
+    $($("#modal_edit #u")[0]).prop("disabled", false);
+    $($("#modal_edit #p")[0]).prop("disabled", false);
+    $($("#modal_edit #fnm")[0]).prop("disabled", false);
+    $($("#modal_edit #lnm")[0]).prop("disabled", false);
+    $($("#modal_edit #typ")[0]).prop("disabled", false);
+    $($("#modal_edit #spec")[0]).prop("disabled", false);
+    $($("#modal_edit #nic")[0]).prop("disabled", false);
+    $($("#modal_edit #age")[0]).prop("disabled", false);
+    $($("#modal_edit #add")[0]).prop("disabled", false);
+    $($("#modal_edit #gen")[0]).prop("disabled", false);
     const elems = $(`#users #u_${id} td`);
     const name = $(elems[1]).text();
     
@@ -80,17 +163,27 @@ $genders = array("0" => "Female", "1" => "Male");
     })
     .then((response) => response.json())
     .then(d => {
-      $($("#modal_edit #id")[0]).val(d.data.id);
-      $($("#modal_edit #u")[0]).val(d.data.username);
-      $($("#modal_edit #p")[0]).val('');
-      $($("#modal_edit #p")[0]).parent().parent().addClass("hidden");
-      $($("#modal_edit #fnm")[0]).val(d.data.fname);
-      $($("#modal_edit #lnm")[0]).val(d.data.lname);
-      $($("#modal_edit #typ")[0]).val(d.data.type);
-      $($("#modal_edit #nic")[0]).val(d.data.nic);
-      $($("#modal_edit #age")[0]).val(d.data.age);
-      $($("#modal_edit #add")[0]).val(d.data.address);
-      $($("#modal_edit #gen")[0]).val(d.data.gender);
+      if (!d.success) {
+        $("#modal_edit .error").html(window.errorAlert.replace("{$ERR$}", d.message));
+      } else {
+        $($("#modal_edit #id")[0]).val(d.data.id);
+        $($("#modal_edit #u")[0]).val(d.data.username);
+        $($("#modal_edit #p")[0]).val('');
+        $($("#modal_edit #p")[0]).parent().parent().addClass("hidden");
+        $($("#modal_edit #fnm")[0]).val(d.data.fname);
+        $($("#modal_edit #lnm")[0]).val(d.data.lname);
+        $($("#modal_edit #typ")[0]).val(d.data.type);
+        $($("#modal_edit #spec")[0]).val(d.data.spec);
+        if (d.data.type === '1') {
+          $($("#modal_edit .spec")[0]).show();
+        } else {
+          $($("#modal_edit .spec")[0]).hide();
+        }
+        $($("#modal_edit #nic")[0]).val(d.data.nic);
+        $($("#modal_edit #age")[0]).val(d.data.age);
+        $($("#modal_edit #add")[0]).val(d.data.address);
+        $($("#modal_edit #gen")[0]).val(d.data.gender);
+      }
       $($("#modal_edit #loader")[0]).addClass("hidden");
       $($("#modal_edit #content")[0]).removeClass("hidden");
     })
@@ -106,6 +199,7 @@ $genders = array("0" => "Female", "1" => "Male");
       fnm: $($("#modal_edit #fnm")[0]).val(),
       lnm: $($("#modal_edit #lnm")[0]).val(),
       typ: $($("#modal_edit #typ")[0]).val(),
+      spec: $($("#modal_edit #spec")[0]).val(),
       nic: $($("#modal_edit #nic")[0]).val(),
       age: $($("#modal_edit #age")[0]).val(),
       add: $($("#modal_edit #add")[0]).val(),
@@ -135,12 +229,20 @@ $genders = array("0" => "Female", "1" => "Male");
   window.doSearch = () => {
     const kwd = $("#search").val();
     const path = '<?php echo base_url('user/index/' . $page . '/'); ?>';
-    window.location.replace(path + kwd);
+    window.location.href = path + kwd;
   }
   $(document).ready(() => {
     $("#search").keypress((e) => {
       if(e.which == 13) {
         doSearch();
+      }
+    });
+    $("#modal_edit #typ").change(function () {
+      var end = this.value;
+      if (end === '1') {
+        $($("#modal_edit .spec")[0]).show();
+      } else {
+        $($("#modal_edit .spec")[0]).hide();
       }
     });
   });
@@ -151,18 +253,24 @@ $genders = array("0" => "Female", "1" => "Male");
     <div class="row">
       <div class="col-xs-12">
         <div class="input-group">
+          <?php if (checkPerm($this->session->userdata('type'), 'u', 'v')) { ?>
           <input value="<?php echo $kwd ?>" type="search" id="search" class="form-control">
           <span class="input-group-btn">
             <button type="button" class="btn btn-default pull-right" onclick="doSearch()">
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </span>
+          <?php
+            }
+            if (checkPerm($this->session->userdata('type'), 'u', 'i')) {
+          ?>
           <span class="input-group-btn">
             <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
               <i class="fa fa-plus" aria-hidden="true"></i>
               Add
             </button>
           </span>
+          <?php } ?>
         </div>
         
       </div>
@@ -170,6 +278,7 @@ $genders = array("0" => "Female", "1" => "Male");
     <br />
     <br />
     <!-- Table -->
+    <?php if (checkPerm($this->session->userdata('type'), 'u', 'v')) { ?>
     <table id="users" class="table table-striped table-hover ">
       <thead>
         <tr>
@@ -191,12 +300,25 @@ $genders = array("0" => "Female", "1" => "Male");
             <td><?php echo $u->age ?></td>
             <td><?php echo $genders[$u->gender] ?></td>
             <td class="text-right">
+              <?php if (checkPerm($this->session->userdata('type'), 'u', 'v')) { ?>
+              <button onclick="showView(<?php echo $u->id ?>)" type="button" class="btn btn-success btn-xs">
+                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
+              </button>
+              <?php
+                }
+                if (checkPerm($this->session->userdata('type'), 'u', 'u')) {
+              ?>
               <button onclick="showEdit(<?php echo $u->id ?>)" type="button" class="btn btn-primary btn-xs">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </button>
+              <?php
+                }
+                if (checkPerm($this->session->userdata('type'), 'u', 'd')) {
+              ?>
               <button onclick="showDelete(<?php echo $u->id ?>)" type="button" class="btn btn-danger btn-xs">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Delete
               </button>
+              <?php } ?>
             </td>
           </tr>
         <?php } ?>
@@ -217,6 +339,7 @@ $genders = array("0" => "Female", "1" => "Male");
         </li>
       </ul>
     </nav>
+    <?php } ?>
     <?php } ?>
     <!-- Model - Edit -->
     <div id="modal_edit" class="modal" role="dialog">
@@ -264,6 +387,12 @@ $genders = array("0" => "Female", "1" => "Male");
                     <label for="typ" class="col-md-2 control-label">User Type</label>
                     <div class="col-md-10">
                       <?php echo form_dropdown('User Type', $types, NULL, array('class' => 'form-control', 'required' => TRUE, 'id' => 'typ')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group spec">
+                    <label for="nic" class="col-md-2 control-label">Doctor Specialty</label>
+                    <div class="col-md-10">
+                      <?php echo form_input(array('class' => 'form-control', 'required' => TRUE, 'id' => 'spec', 'placeholder' => 'Specialty', 'autocomplete' => 'off')); ?>
                     </div>
                   </div>
                   <div class="form-group">

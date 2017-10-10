@@ -1,5 +1,5 @@
 <?php
-$this->load->view('nav/admin', array('active' => 'user', 'username' => $username));
+$this->load->view('nav/admin', array('active' => 'appointment', 'username' => $username));
 ?>
 <?php
 
@@ -7,11 +7,10 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
 <script>
   window.errorAlert = "<div class=\"alert alert-dismissible alert-danger\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button><p>{$ERR$}</p></div>";
   window.showDelete = (id) => {
-    const elems = $(`#users #u_${id} td`);
-    const name = $(elems[1]).text();
-
+    // const elems = $(`#users #u_${id} td`);
+    // const name = $(elems[0]).text();
     $("#modal_del .error").html('');
-    $($("#modal_del .modal-title")[0]).text(`Are you sure to delete user '${name}'?`);
+    $($("#modal_del .modal-title")[0]).text(`Are you sure to delete appointment #${id}?`);
     $($("#modal_del #id")[0]).val(id);
     $($("#modal_del #loader")[0]).addClass("hidden");
     $($("#modal_del #content")[0]).removeClass("hidden");
@@ -20,7 +19,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
   window.confirmDelete = () => {
     $($("#modal_del #loader")[0]).removeClass("hidden");
     $($("#modal_del #content")[0]).addClass("hidden");
-    fetch('<?php echo base_url('user/delete'); ?>', {
+    fetch('<?php echo base_url('appointment/delete'); ?>', {
       credentials: 'same-origin',
       method: 'POST',
       headers: {
@@ -41,7 +40,57 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     })
     .catch(e => console.error(e));
   }
+  window.showView = (id) => {
+    const elems = $(`#appointments #u_${id} td`);
+    const name = $(elems[0]).text();
+    
+    $("#modal_edit .error").html('');
+    $($("#modal_edit .modal-title")[0]).text(`View appointment #${name}`);
+    $($("#modal_edit .modal-footer .btn-primary")[0]).addClass("hidden");
+    window.selectPatient[0].selectize.disable();
+    window.selectDoc[0].selectize.disable();
+    $($("#modal_edit #room")[0]).prop("disabled", true);
+    $($("#modal_edit #pre")[0]).prop("disabled", true);
+    $($("#modal_edit #time")[0]).addClass("disabled");
+    $("#modal_edit").modal('show');
+    $($("#modal_edit #loader")[0]).removeClass("hidden");
+    $($("#modal_edit #content")[0]).addClass("hidden");
+    fetch('<?php echo base_url('appointment/get'); ?>', {
+      credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id })
+    })
+    .then((response) => response.json())
+    .then(d => {
+      if (!d.success) {
+        $("#modal_edit .error").html(window.errorAlert.replace("{$ERR$}", d.message));
+      } else {
+        console.log();
+        $($("#modal_edit #id")[0]).val(d.data.id);
+        window.selectPatient[0].selectize.addOption({ id: d.data.patient_id, name: d.data.patient, nic: d.data.patient_nic });
+        window.selectPatient[0].selectize.setValue(d.data.patient_id, true);
+        window.selectDoc[0].selectize.addOption({ id: d.data.doc_id, name: d.data.doc, spec: d.data.doc_spec });
+        window.selectDoc[0].selectize.setValue(d.data.doc_id, true);
+        $($("#modal_edit #room")[0]).val(d.data.room);
+        $($("#modal_edit #pre")[0]).val(d.data.meds);
+        $($("#modal_edit #time")[0]).data("DateTimePicker").date(new Date(d.data.time));
+      }
+      $($("#modal_edit #loader")[0]).addClass("hidden");
+      $($("#modal_edit #content")[0]).removeClass("hidden");
+    })
+    .catch(e => console.error(e));
+  }
   window.showAdd = () => {
+    $($("#modal_edit .modal-footer .btn-primary")[0]).removeClass("hidden");
+    window.selectPatient[0].selectize.enable();
+    window.selectDoc[0].selectize.enable();
+    $($("#modal_edit #room")[0]).prop("disabled", false);
+    $($("#modal_edit #pre")[0]).prop("disabled", false);
+    $($("#modal_edit #time")[0]).removeClass("disabled");
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Add new appointment`);
     $($("#modal_edit #id")[0]).val('');
@@ -60,15 +109,21 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     $("#modal_edit").modal('show');
   }
   window.showEdit = (id) => {
-    const elems = $(`#users #u_${id} td`);
-    const name = $(elems[1]).text();
+    $($("#modal_edit .modal-footer .btn-primary")[0]).removeClass("hidden");
+    window.selectPatient[0].selectize.enable();
+    window.selectDoc[0].selectize.enable();
+    $($("#modal_edit #room")[0]).prop("disabled", false);
+    $($("#modal_edit #pre")[0]).prop("disabled", false);
+    $($("#modal_edit #time")[0]).removeClass("disabled");
+    const elems = $(`#appointments #u_${id} td`);
+    const name = $(elems[0]).text();
     
     $("#modal_edit .error").html('');
-    $($("#modal_edit .modal-title")[0]).text(`Edit user "${name}"`);
+    $($("#modal_edit .modal-title")[0]).text(`Edit appointment #${name}`);
     $("#modal_edit").modal('show');
     $($("#modal_edit #loader")[0]).removeClass("hidden");
     $($("#modal_edit #content")[0]).addClass("hidden");
-    fetch('<?php echo base_url('user/get'); ?>', {
+    fetch('<?php echo base_url('appointment/get'); ?>', {
       credentials: 'same-origin',
         method: 'POST',
         headers: {
@@ -79,17 +134,19 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     })
     .then((response) => response.json())
     .then(d => {
-      $($("#modal_edit #id")[0]).val(d.data.id);
-      $($("#modal_edit #u")[0]).val(d.data.username);
-      $($("#modal_edit #p")[0]).val('');
-      $($("#modal_edit #p")[0]).parent().parent().addClass("hidden");
-      $($("#modal_edit #fnm")[0]).val(d.data.fname);
-      $($("#modal_edit #lnm")[0]).val(d.data.lname);
-      $($("#modal_edit #typ")[0]).val(d.data.type);
-      $($("#modal_edit #nic")[0]).val(d.data.nic);
-      $($("#modal_edit #age")[0]).val(d.data.age);
-      $($("#modal_edit #add")[0]).val(d.data.address);
-      $($("#modal_edit #gen")[0]).val(d.data.gender);
+      if (!d.success) {
+        $("#modal_edit .error").html(window.errorAlert.replace("{$ERR$}", d.message));
+      } else {
+        console.log();
+        $($("#modal_edit #id")[0]).val(d.data.id);
+        window.selectPatient[0].selectize.addOption({ id: d.data.patient_id, name: d.data.patient, nic: d.data.patient_nic });
+        window.selectPatient[0].selectize.setValue(d.data.patient_id, true);
+        window.selectDoc[0].selectize.addOption({ id: d.data.doc_id, name: d.data.doc, spec: d.data.doc_spec });
+        window.selectDoc[0].selectize.setValue(d.data.doc_id, true);
+        $($("#modal_edit #room")[0]).val(d.data.room);
+        $($("#modal_edit #pre")[0]).val(d.data.meds);
+        $($("#modal_edit #time")[0]).data("DateTimePicker").date(new Date(d.data.time));
+      }
       $($("#modal_edit #loader")[0]).addClass("hidden");
       $($("#modal_edit #content")[0]).removeClass("hidden");
     })
@@ -100,17 +157,13 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     $($("#modal_edit #content")[0]).addClass("hidden");
     const data = {
       id: $($("#modal_edit #id")[0]).val() === '' ? undefined : $($("#modal_edit #id")[0]).val(),
-      u: $($("#modal_edit #u")[0]).val(),
-      p: $($("#modal_edit #id")[0]).val() === '' ? $($("#modal_edit #p")[0]).val() : undefined,
-      fnm: $($("#modal_edit #fnm")[0]).val(),
-      lnm: $($("#modal_edit #lnm")[0]).val(),
-      typ: $($("#modal_edit #typ")[0]).val(),
-      nic: $($("#modal_edit #nic")[0]).val(),
-      age: $($("#modal_edit #age")[0]).val(),
-      add: $($("#modal_edit #add")[0]).val(),
-      gen: $($("#modal_edit #gen")[0]).val()
+      patient: $($("#modal_edit #select-patient")[0]).val(),
+      doc: $($("#modal_edit #select-doc")[0]).val(),
+      rmn: $($("#modal_edit #room")[0]).val(),
+      time: $($("#modal_edit #time")[0]).data("DateTimePicker").date().format("YYYY-MM-DD HH:mm:ss"),
+      meds: $($("#modal_edit #pre")[0]).val()
     };
-    fetch(!data.id ? '<?php echo base_url('user/insert'); ?>' : '<?php echo base_url('user/update'); ?>', {
+    fetch(!data.id ? '<?php echo base_url('appointment/insert'); ?>' : '<?php echo base_url('appointment/update'); ?>', {
       credentials: 'same-origin',
       method: 'POST',
       headers: {
@@ -134,7 +187,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
   window.doSearch = () => {
     const kwd = $("#search").val();
     const path = '<?php echo base_url('appointment/index/' . $page . '/'); ?>';
-    window.location.replace(path + kwd);
+    window.location.href = path + kwd;
   }
   $(document).ready(() => {
     $("#search").keypress((e) => {
@@ -142,7 +195,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
         doSearch();
       }
     });
-    $('#select-patient').selectize({
+    window.selectPatient = $('#select-patient').selectize({
       valueField: 'id',
       labelField: 'name',
       searchField: 'name',
@@ -171,7 +224,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
           });
       }
     });
-    $('#select-doc').selectize({
+    window.selectDoc = $('#select-doc').selectize({
       valueField: 'id',
       labelField: 'name',
       searchField: 'name',
@@ -200,6 +253,11 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
           });
       }
     });
+    $($("#modal_edit #time")[0]).datetimepicker({
+      inline: true,
+      sideBySide: true,
+      minDate: new Date()
+    });
   });
 </script>
 <div class="row">
@@ -208,18 +266,24 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     <div class="row">
       <div class="col-xs-12">
         <div class="input-group">
+          <?php if (checkPerm($this->session->userdata('type'), 'a', 'v')) { ?>
           <input value="<?php echo $kwd ?>" type="search" id="search" class="form-control">
           <span class="input-group-btn">
             <button type="button" class="btn btn-default pull-right" onclick="doSearch()">
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </span>
+          <?php
+            }
+            if (checkPerm($this->session->userdata('type'), 'a', 'i')) {
+          ?>
           <span class="input-group-btn">
             <button type="button" class="btn btn-success pull-right" onclick="showAdd()">
               <i class="fa fa-plus" aria-hidden="true"></i>
               Add
             </button>
           </span>
+          <?php } ?>
         </div>
         
       </div>
@@ -227,6 +291,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
     <br />
     <br />
     <!-- Table -->
+    <?php if (checkPerm($this->session->userdata('type'), 'a', 'v')) { ?>
     <table id="appointments" class="table table-striped table-hover">
       <thead>
         <tr>
@@ -246,12 +311,25 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
             <td><?php echo $u->room ?></td>
             <td><?php echo $u->time ?></td>
             <td class="text-right">
+              <?php if (checkPerm($this->session->userdata('type'), 'a', 'v')) { ?>
+              <button onclick="showView(<?php echo $u->id ?>)" type="button" class="btn btn-success btn-xs">
+                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
+              </button>
+              <?php
+                }
+                if (checkPerm($this->session->userdata('type'), 'a', 'u')) {
+              ?>
               <button onclick="showEdit(<?php echo $u->id ?>)" type="button" class="btn btn-primary btn-xs">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </button>
+              <?php
+                }
+                if (checkPerm($this->session->userdata('type'), 'a', 'd')) {
+              ?>
               <button onclick="showDelete(<?php echo $u->id ?>)" type="button" class="btn btn-danger btn-xs">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Delete
               </button>
+              <?php } ?>
             </td>
           </tr>
         <?php } ?>
@@ -272,6 +350,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
         </li>
       </ul>
     </nav>
+    <?php } ?>
     <?php } ?>
     <!-- Model - Edit -->
     <div id="modal_edit" class="modal" role="dialog">
@@ -305,6 +384,24 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
                     </select>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label for="age" class="col-md-2 control-label">Room</label>
+                    <div class="col-md-10">
+                      <?php echo form_input(array('type' => 'number', 'class' => 'form-control', 'required' => TRUE, 'id' => 'room', 'placeholder' => 'Room', 'autocomplete' => 'off')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="age" class="col-md-2 control-label">Date Time</label>
+                    <div class="col-md-10">
+                      <div id="time"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="add" class="col-md-2 control-label">Prescription</label>
+                    <div class="col-md-10">
+                      <?php echo form_textarea(array('class' => 'form-control', 'rows' => '3', 'id' => 'pre', 'placeholder' => 'Prescription', 'autocomplete' => 'off')); ?>
+                    </div>
+                  </div>
                 </fieldset>
               </form>
             </div>
@@ -322,7 +419,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Are you sure to delete user ###?</h4>
+            <h4 class="modal-title">Are you sure to delete appointment ###?</h4>
           </div>
           <div class="modal-body all-center">
             <div id="loader" class="">
