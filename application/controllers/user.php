@@ -5,23 +5,15 @@ class user extends CI_Controller {
 
 	public function __construct() {
     parent::__construct();
-
     $this->load->library('session');
-    if ($this->session->has_userdata('id') && $this->session->has_userdata('fname') && $this->session->has_userdata('lname') && $this->session->has_userdata('type') && $this->session->userdata('type') === '0') {
-      
-    } else {
-      header("HTTP/1.1 401 Unauthorized");
-      $data['content'] = $this->load->view('error', array('title' => '401 Unauthorized', 'msg' => 'The request has failed authentication'), TRUE);
-      die($this->load->view('page', $data, TRUE));
-      exit;
-    }
-
+    $this->load->helper('userperm');
     $this->load->helper('form');
     $this->load->helper('url');
 		$this->load->model('userModel', '', TRUE);
 	}
 	
 	public function index() {
+
 		$data['title'] = "Manage User Accounts";
     $message = array();
 
@@ -45,6 +37,11 @@ class user extends CI_Controller {
   }
   
   public function get() {
+    
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'v')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if ($req->id) {
@@ -67,15 +64,21 @@ class user extends CI_Controller {
   }
 
   public function update() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'u')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
-    if (isset($req->id) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
+    if (isset($req->id) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->spec) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
       if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->userModel->update($req->id, array(
           'username' => $req->u,
           'fname' => $req->fnm,
           'lname' => $req->lnm,
           'type' => $req->typ,
+          'spec' => $req->spec,
           'nic' => $req->nic,
           'age' => $req->age,
           'address' => $req->add,
@@ -98,16 +101,22 @@ class user extends CI_Controller {
   }
 
   public function insert() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'i')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
-    if (isset($req->p) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
+    if (isset($req->p) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->spec) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
       if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->userModel->insert(array(
           'username' => $req->u,
-          'password' => $req->p,
+          'password' => md5($req->p),
           'fname' => $req->fnm,
           'lname' => $req->lnm,
           'type' => $req->typ,
+          'spec' => $req->spec,
           'nic' => $req->nic,
           'age' => $req->age,
           'address' => $req->add,
@@ -130,6 +139,11 @@ class user extends CI_Controller {
   }
 
   public function delete() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'd')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if ($req->id) {

@@ -7,15 +7,7 @@ class patient extends CI_Controller {
     parent::__construct();
 
     $this->load->library('session');
-    if ($this->session->has_userdata('id') && $this->session->has_userdata('fname') && $this->session->has_userdata('lname') && $this->session->has_userdata('type') && $this->session->userdata('type') === '0') {
-      
-    } else {
-      header("HTTP/1.1 401 Unauthorized");
-      $data['content'] = $this->load->view('error', array('title' => '401 Unauthorized', 'msg' => 'The request has failed authentication'), TRUE);
-      die($this->load->view('page', $data, TRUE));
-      exit;
-    }
-
+    $this->load->helper('userperm');
     $this->load->helper('form');
     $this->load->helper('url');
 		$this->load->model('patientModel', '', TRUE);
@@ -45,6 +37,11 @@ class patient extends CI_Controller {
   }
   
   public function get() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'p', 'v')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if ($req->id) {
@@ -67,6 +64,11 @@ class patient extends CI_Controller {
   }
 
   public function update() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'p', 'u')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if (isset($req->id) && isset($req->rmn) && isset($req->grd) && isset($req->fnm) && isset($req->lnm) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
@@ -98,6 +100,11 @@ class patient extends CI_Controller {
   }
 
   public function insert() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'p', 'i')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if (isset($req->rmn) && isset($req->grd) && isset($req->fnm) && isset($req->lnm) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
@@ -129,6 +136,11 @@ class patient extends CI_Controller {
   }
 
   public function delete() {
+
+    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'p', 'd')) {
+      noPerm(true);
+    }
+
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if ($req->id) {

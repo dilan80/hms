@@ -27,7 +27,7 @@ CREATE TABLE `appointment` (
   `patient` int(11) NOT NULL,
   `doc` int(11) NOT NULL,
   `room` int(11) NOT NULL,
-  `time` date NOT NULL,
+  `time` datetime NOT NULL,
   `meds` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -39,7 +39,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-INSERT INTO `appointment` VALUES (1,1,3,32,'2017-10-05','');
+INSERT INTO `appointment` VALUES (1,1,2,23,'2017-10-28 21:17:27','awd');
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `patient` (
   `gurdian` varchar(250) NOT NULL,
   `address` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,8 +70,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES (1,'awdawd','123',23,1,1,'12312313','my name','aw da dawdad,\nawd aw dd a');
-INSERT INTO `patient` VALUES (3,'hashan 2','chathu 2',23,0,34,'91239123v','amma','awaw awd ad,\nawdawdawdawd');
+INSERT INTO `patient` VALUES (1,'Admin','Patient Update',32,0,34,'234234234V','awd awdk ajwd','aw awd ad ,\nawldaklwdkawd,\nalwdalwdk');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +95,7 @@ CREATE TABLE `user` (
   `spec` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,18 +104,10 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'a2','0cc175b9c0f1b6a831c399e269772661','Chathuranga','Hashan',0,'345345',232,'New, \nuoda',1,'');
-INSERT INTO `user` VALUES (3,'dila','dilan6370','Chathuranga','Dilan',1,'19231823',23,'awdawawdadw,\nawdawdawd awd aw ,\nawdawdawda.',1,'Nerve Sergent');
-INSERT INTO `user` VALUES (6,'a3','0cc175b9c0f1b6a831c399e269772661','newawd awd ','updataw dawd',0,'',23,'New',0,'');
-INSERT INTO `user` VALUES (7,'a4','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (8,'a5','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (9,'a6','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (10,'a7','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (11,'a8','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (12,'a9','0cc175b9c0f1b6a831c399e269772661','new','updat',0,'',23,'New',1,'');
-INSERT INTO `user` VALUES (13,'b1','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
-INSERT INTO `user` VALUES (14,'b2','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
-INSERT INTO `user` VALUES (15,'b3','0cc175b9c0f1b6a831c399e269772661','awd','awdawd',0,'12312313',23,'awdawdwd awdawd ,awdawd awd awd \r\n',0,'');
+INSERT INTO `user` VALUES (1,'admin','0cc175b9c0f1b6a831c399e269772661','Admin','User',0,'97123123V',23,'awd awd awd awd ,\r\nawd awd awd,\r\nawdawddd.',1,'');
+INSERT INTO `user` VALUES (2,'doc','0cc175b9c0f1b6a831c399e269772661','User','Doc',1,'10329102389',76,'kjrnksef awd awd ,\nefl el ajwjalwk,\nkwadlwkdl.',0,'Neurological Surgeon');
+INSERT INTO `user` VALUES (3,'nurse','0cc175b9c0f1b6a831c399e269772661','User','Nurse',2,'013849279482',56,'awkdjl awjdilajwd ,\nawd jiaowdjjaw,\nawdlaw.',1,'');
+INSERT INTO `user` VALUES (4,'attendent','0cc175b9c0f1b6a831c399e269772661','User','Attendent',3,'23842304923V',34,'awd awkd lawdjla,\nawldalwda,\nawdlawldawd.',1,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -129,4 +120,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-05 23:41:41
+-- Dump completed on 2017-10-08 23:37:30
