@@ -1,9 +1,7 @@
 <?php
 $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $username));
 ?>
-<?php
 
-?>
 <script>
   window.errorAlert = "<div class=\"alert alert-dismissible alert-danger\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button><p>{$ERR$}</p></div>";
   window.showDelete = (id) => {
@@ -90,7 +88,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
     window.selectDoc[0].selectize.enable();
     $($("#modal_edit #room")[0]).prop("disabled", false);
     $($("#modal_edit #pre")[0]).prop("disabled", false);
-    $($("#modal_edit #time")[0]).removeClass("disabled");
+    $($("#modal_edit #time")[0]).removeClass("disable");
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Add new appointment`);
     $($("#modal_edit #id")[0]).val('');
@@ -299,8 +297,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
           <th>Patient</th>
           <th>Doctor</th>
           <th>Room</th>
-          <th>Date</th>
-          <th>Time</th>
+          <th>Date and Time</th>
         </tr>
       </thead>
       <tbody>

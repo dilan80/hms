@@ -44,6 +44,22 @@ class UserModel extends CI_Model {
       }
     }
   }
+  // public function count($keyword) {
+  //   $q = $this->db
+  //     ->select('COUNT(*) as count')
+  //     ->from('patient')
+  //     ->like('fname', $keyword)
+  //     ->or_like('lname', $keyword)
+  //     ->get();
+  //   if ($q->num_rows() > 0) {
+  //     $r = $q->result();
+  //     if (sizeof($r) > 0) {
+  //       return $r[0]->count;
+  //     } else {
+  //       return 0;
+  //     }
+  //   }
+  // }
 
   public function fetch($page, $keyword = '') {
     $q = $this->db

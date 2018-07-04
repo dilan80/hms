@@ -34,7 +34,9 @@ class user extends CI_Controller {
 
 		$data['content'] = $this->load->view('user/list', $message, TRUE);
 		$this->load->view('page', $data);
-  }
+
+
+	  }
 
   public function get() {
 
@@ -113,7 +115,7 @@ class user extends CI_Controller {
     if ($req->u && $req->p && $req->fnm && $req->lnm && $req->spec && isset($req->typ) && $req->nic && $req->age && $req->add && isset($req->gen)) {
       if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->userModel->insert(array(
-          'username' => $req->u,
+					'username' => $req->u,
 					'password' => md5($req->p),
           'fname' => $req->fnm,
           'lname' => $req->lnm,
@@ -135,7 +137,7 @@ class user extends CI_Controller {
     }
     die(json_encode(array(
       'success' => FALSE,
-      'message' => 'Incorrect parameters!',
+      'message' => 'Incorrect Parameters!',
       'data' => NULL
     )));
   }

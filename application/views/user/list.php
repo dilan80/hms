@@ -248,6 +248,9 @@ $genders = array("0" => "Female", "1" => "Male");
     });
   });
 </script>
+<div class="col-md-offset-1 col-md-11">
+<div class="row">Users</dev>
+</dev>
 <div class="row">
   <div class="col-md-offset-1 col-md-10">
     <!-- Controllers -->

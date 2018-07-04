@@ -12,7 +12,7 @@ class appointment extends CI_Controller {
     $this->load->helper('date');
 		$this->load->model('appointmentModel', '', TRUE);
 	}
-	
+
 	public function index() {
 		$data['title'] = "Manage Appointments";
     $message = array();
@@ -26,12 +26,12 @@ class appointment extends CI_Controller {
     if ( null !== $this->uri->segment('4') ) {
       $message['kwd'] = $this->uri->segment('4');
     }
-    
+
     $message['count'] = $this->appointmentModel->count($message['kwd']);
     $message['list'] = $this->appointmentModel->fetch($message['page'], $message['kwd']);
 
     $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
-    
+
 		$data['content'] = $this->load->view('appointment/list', $message, TRUE);
 		$this->load->view('page', $data);
   }
@@ -55,7 +55,7 @@ class appointment extends CI_Controller {
     header('Content-Type: application/json');
     die(json_encode($array));
   }
-  
+
   public function get() {
 
     if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'a', 'v')) {
