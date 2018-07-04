@@ -24,7 +24,7 @@ class PatientModel extends CI_Model {
 
   public function fetch($page, $keyword) {
     $q = $this->db
-      ->select('id, fname, lname, nic, age')
+      ->select('id, fname, lname, nic, age,address')
       ->from('patient')
       ->limit(10, ($page - 1) * 10)
       ->like('fname', $keyword)

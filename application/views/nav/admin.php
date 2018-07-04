@@ -12,10 +12,14 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+        <li class="nav-item active">
+        <a class="nav-link" href="<?php echo base_url('dashboard/'); ?>">Dashboard <span class="sr-only">(current)</span></a>
+        </li>
         <?php
           if (!$this->session->has_userdata('type')) {
             noPerm();
           }
+
           if (checkPerm($this->session->userdata('type'), 'u')) {
         ?>
         <li<?php if (isset($active) && $active === 'user') { echo ' class="active"'; } ?>>
@@ -36,6 +40,7 @@
           <a href="<?php echo base_url('appointment/'); ?>">Appointments<?php if (isset($active) && $active = 'appointment') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
         </li>
         <?php } ?>
+
       </ul>
       <!-- <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Sign Out</a></li>
@@ -47,6 +52,7 @@
             <!-- <li><a href="#">Profile</a></li>
             <li class="divider"></li> -->
             <li><a href="<?php echo base_url('login/out'); ?>">Sign Out</a></li>
+            <li><a href="<?php echo base_url(''); ?>">Change Passwor</a></li>
           </ul>
         </li>
       </ul>

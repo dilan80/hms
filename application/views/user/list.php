@@ -88,7 +88,7 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #gen")[0]).prop("disabled", true);
     const elems = $(`#users #u_${id} td`);
     const name = $(elems[1]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`View user "${name}"`);
     $("#modal_edit").modal('show');
@@ -146,7 +146,7 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #gen")[0]).prop("disabled", false);
     const elems = $(`#users #u_${id} td`);
     const name = $(elems[1]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Edit user "${name}"`);
     $("#modal_edit").modal('show');
@@ -216,6 +216,7 @@ $genders = array("0" => "Female", "1" => "Male");
     })
     .then((response) => response.json())
     .then(d => {
+      console.log(d);
       if (!d.success) {
         $("#modal_edit .error").html(window.errorAlert.replace("{$ERR$}", d.message));
         $($("#modal_edit #loader")[0]).addClass("hidden");
@@ -272,7 +273,7 @@ $genders = array("0" => "Female", "1" => "Male");
           </span>
           <?php } ?>
         </div>
-        
+
       </div>
     </div>
     <br />
@@ -284,6 +285,7 @@ $genders = array("0" => "Female", "1" => "Male");
         <tr>
           <th>#</th>
           <th>Name</th>
+          <th>User Name</th>
           <th>NIC</th>
           <th>Type</th>
           <th>Age</th>
@@ -295,6 +297,7 @@ $genders = array("0" => "Female", "1" => "Male");
           <tr id="u_<?php echo $u->id ?>">
             <td><?php echo $u->id ?></td>
             <td><?php echo $u->fname . ' ' . $u->lname ?></td>
+            <td><?php echo $u->username ?></td>
             <td><?php echo $u->nic ?></td>
             <td><?php echo $types[$u->type] ?></td>
             <td><?php echo $u->age ?></td>

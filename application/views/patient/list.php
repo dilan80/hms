@@ -78,7 +78,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
     $($("#modal_edit #gen")[0]).prop("disabled", true);
     const elems = $(`#patients #p_${id} td`);
     const name = $(elems[1]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`View patient "${name}"`);
     $("#modal_edit").modal('show');
@@ -126,7 +126,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
     $($("#modal_edit #gen")[0]).prop("disabled", false);
     const elems = $(`#patients #p_${id} td`);
     const name = $(elems[1]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Edit patient "${name}"`);
     $("#modal_edit").modal('show');
@@ -248,6 +248,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
           <th>Name</th>
           <th>NIC</th>
           <th>Age</th>
+          <th>Address</th>
         </tr>
       </thead>
       <tbody>
@@ -257,6 +258,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
             <td><?php echo $u->fname . ' ' . $u->lname ?></td>
             <td><?php echo $u->nic ?></td>
             <td><?php echo $u->age ?></td>
+            <td><?php echo $u->address ?></td>
             <td class="text-right">
               <?php if (checkPerm($this->session->userdata('type'), 'p', 'v')) { ?>
               <button onclick="showView(<?php echo $u->id ?>)" type="button" class="btn btn-success btn-xs">
@@ -362,7 +364,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
                   <div class="form-group">
                     <label for="gen" class="col-md-2 control-label">Gender</label>
                     <div class="col-md-10">
-                      <?php echo form_dropdown('User Type', array("0" => "Female", "1" => "Male"), "male", array('class' => 'form-control', 'required' => TRUE, 'id' => 'gen')); ?>
+                      <?php echo form_dropdown('User Type', array("-1"=>"--Select--","0" => "Female", "1" => "Male"), "--Select--", array('class' => 'form-control', 'required' => TRUE, 'id' => 'gen')); ?>
                     </div>
                   </div>
                 </fieldset>
@@ -382,7 +384,7 @@ $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attenden
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Are you sure to delete patient ###?</h4>
+            <h4 class="modal-title">Are you sure to delete patient #?</h4>
           </div>
           <div class="modal-body all-center">
             <div id="loader" class="">

@@ -11,11 +11,11 @@ class login extends CI_Controller {
 		$this->load->model('userModel', '', TRUE);
 		$this->load->helper('url');
 	}
-	
+
 	public function index() {
 		$data['title'] = "Sign In";
 		$message = array();
-		
+
 		if ($this->input->post('u') && $this->input->post('p')) {
 			if (trim($this->input->post('u')) === '' || trim($this->input->post('p')) === '') {
 				$message = array('typ' => 'ERR', 'msg' => 'Username or password cannot be empty.');

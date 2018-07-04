@@ -36,12 +36,13 @@
           </div>
           <div class="form-group">
             <div class="col-md-12">
-              <?php echo form_submit('submit', 'Submit', array('class' => 'btn btn-primary pull-right')) ?>
+              <?php echo form_submit('submit', 'Sign in', array('class' => 'btn btn-primary pull-right')) ?>
               <?php echo form_reset('reset', 'Reset', array('class' => 'btn btn-default pull-right')) ?>
             </div>
           </div>
         </fieldset>
       </form>
     <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div></div>
+    <!-- <div id="source-button" class="btn btn-default btn-xs" style="display: none;">&lt; &gt;</div></div> -->
   </div>
 </div>

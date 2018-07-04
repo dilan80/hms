@@ -38,3 +38,13 @@
 .bootstrap-datetimepicker-widget table thead tr:first-child th:hover, .bootstrap-datetimepicker-widget table td span:hover, .bootstrap-datetimepicker-widget table td.day:hover, .bootstrap-datetimepicker-widget table td.hour:hover, .bootstrap-datetimepicker-widget table td.minute:hover, .bootstrap-datetimepicker-widget table td.second:hover {
   color: #333;
 }
+
+.alert-danger{
+    background-color: #d43f3f;
+    border-color: transparent;
+    color: #ebebeb;
+}
+#h1{
+  align-items: center;
+  font-size: 40px;
+}

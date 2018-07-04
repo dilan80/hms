@@ -43,7 +43,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
   window.showView = (id) => {
     const elems = $(`#appointments #u_${id} td`);
     const name = $(elems[0]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`View appointment #${name}`);
     $($("#modal_edit .modal-footer .btn-primary")[0]).addClass("hidden");
@@ -117,7 +117,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
     $($("#modal_edit #time")[0]).removeClass("disabled");
     const elems = $(`#appointments #u_${id} td`);
     const name = $(elems[0]).text();
-    
+
     $("#modal_edit .error").html('');
     $($("#modal_edit .modal-title")[0]).text(`Edit appointment #${name}`);
     $("#modal_edit").modal('show');
@@ -285,7 +285,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
           </span>
           <?php } ?>
         </div>
-        
+
       </div>
     </div>
     <br />
@@ -299,6 +299,7 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
           <th>Patient</th>
           <th>Doctor</th>
           <th>Room</th>
+          <th>Date</th>
           <th>Time</th>
         </tr>
       </thead>

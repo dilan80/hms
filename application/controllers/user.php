@@ -11,7 +11,7 @@ class user extends CI_Controller {
     $this->load->helper('url');
 		$this->load->model('userModel', '', TRUE);
 	}
-	
+
 	public function index() {
 
 		$data['title'] = "Manage User Accounts";
@@ -26,18 +26,18 @@ class user extends CI_Controller {
     if ( null !== $this->uri->segment('4') ) {
       $message['kwd'] = $this->uri->segment('4');
     }
-    
+
     $message['count'] = $this->userModel->count($message['kwd']);
     $message['list'] = $this->userModel->fetch($message['page'], $message['kwd']);
 
     $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
-    
+
 		$data['content'] = $this->load->view('user/list', $message, TRUE);
 		$this->load->view('page', $data);
   }
-  
+
   public function get() {
-    
+
     if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'v')) {
       noPerm(true);
     }
@@ -74,6 +74,7 @@ class user extends CI_Controller {
     if (isset($req->id) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->spec) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
       if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->userModel->update($req->id, array(
+
           'username' => $req->u,
           'fname' => $req->fnm,
           'lname' => $req->lnm,
@@ -94,7 +95,7 @@ class user extends CI_Controller {
       }
     }
     die(json_encode(array(
-      'success' => FALSE,
+      'success' => TRUE,
       'message' => 'Incorrect parameters!',
       'data' => NULL
     )));
@@ -108,11 +109,12 @@ class user extends CI_Controller {
 
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
-    if (isset($req->p) && isset($req->u) && isset($req->fnm) && isset($req->lnm) && isset($req->spec) && isset($req->typ) && isset($req->nic) && isset($req->age) && isset($req->add) && isset($req->gen)) {
+
+    if ($req->u && $req->p && $req->fnm && $req->lnm && $req->spec && isset($req->typ) && $req->nic && $req->age && $req->add && isset($req->gen)) {
       if (array_search($req->typ, array('0', '1', '2', '3')) !== FALSE && array_search($req->gen, array('0', '1')) !== FALSE) {
         $res = $this->userModel->insert(array(
           'username' => $req->u,
-          'password' => md5($req->p),
+					'password' => md5($req->p),
           'fname' => $req->fnm,
           'lname' => $req->lnm,
           'type' => $req->typ,

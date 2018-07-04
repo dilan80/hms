@@ -7,7 +7,7 @@ class UserModel extends CI_Model {
     $this->load->library('session');
     $this->load->helper('cookie');
   }
-  
+
   public function login($u, $p, $r) {
     $q = $this->db
       ->select('id, lname, fname, type')
@@ -47,7 +47,7 @@ class UserModel extends CI_Model {
 
   public function fetch($page, $keyword = '') {
     $q = $this->db
-      ->select('id, fname, lname, nic, type, age, gender')
+      ->select('id, fname, lname,username, nic, type, age, gender')
       ->from('user')
       ->limit(10, ($page - 1) * 10)
       ->like('fname', $keyword)
