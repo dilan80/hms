@@ -12,7 +12,7 @@ class patient extends CI_Controller {
     $this->load->helper('url');
 		$this->load->model('patientModel', '', TRUE);
 	}
-	
+
 	public function index() {
 		$data['title'] = "Manage Patients";
     $message = array();
@@ -26,16 +26,16 @@ class patient extends CI_Controller {
     if ( null !== $this->uri->segment('4') ) {
       $message['kwd'] = $this->uri->segment('4');
     }
-    
+
     $message['count'] = $this->patientModel->count($message['kwd']);
     $message['list'] = $this->patientModel->fetch($message['page'], $message['kwd']);
 
     $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
-    
+
 		$data['content'] = $this->load->view('patient/list', $message, TRUE);
 		$this->load->view('page', $data);
   }
-  
+
   public function get() {
 
     if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'p', 'v')) {
@@ -144,13 +144,7 @@ class patient extends CI_Controller {
     $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
     $req = json_decode($stream_clean);
     if ($req->id) {
-      if ($this->session->userdata('id') == $req->id) {
-        die(json_encode(array(
-          'success' => FALSE,
-          'message' => 'You cannot delete yourself!',
-          'data' => NULL
-        )));
-      }
+
       $u = $this->patientModel->delete($req->id);
       if ($u) {
         die(json_encode(array(

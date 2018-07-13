@@ -1,5 +1,5 @@
 <?php
-class UserModel extends CI_Model {
+class DoctorModel extends CI_Model {
   public function __construct() {
     parent::__construct();
     // Your own constructor code
@@ -10,15 +10,15 @@ class UserModel extends CI_Model {
 
   public function login($u, $p, $r) {
     $q = $this->db
-      ->select('id, lname, fname, type, status')
+      ->select('id, lname, fname, type')
       ->from('user')
       ->where('username', $u)
       ->where('password', md5($p))
       ->get();
     if ($q->num_rows() > 0) {
-      $r= $q->result();
-        if (sizeof($r) > 0) {
-        $this->session->set_userdata( array( 'id' => $r[0]->id, 'fname' => $r[0]->fname, 'lname' => $r[0]->lname, 'type' => $r[0]->type, 'status' => $r[0]->status) );
+      $r = $q->result();
+      if (sizeof($r) > 0) {
+        $this->session->set_userdata( array( 'id' => $r[0]->id, 'fname' => $r[0]->fname, 'lname' => $r[0]->lname, 'type' => $r[0]->type ) );
         $token = $this->encrypt->encode($r[0]->id);
         set_cookie('auth', $token, 60*60*24);
         return true;
@@ -48,11 +48,10 @@ class UserModel extends CI_Model {
 
   public function fetch($page, $keyword = '') {
     $q = $this->db
-      ->select('id, fname, lname,username, nic, type, age, gender,status')
+      ->select('id, fname, lname,username, nic, type, age, gender,spec')
       ->from('user')
+      ->where('type', $type=1)
       ->limit(10, ($page - 1) * 10)
-      ->like('fname', $keyword)
-      ->or_like('lname', $keyword)
       ->order_by('fname', 'ASC')
       ->get();
     if ($q->num_rows() > 0) {

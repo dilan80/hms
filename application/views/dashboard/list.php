@@ -54,7 +54,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
                             <div class="rotate">
                                 <i class="fa fa-twitter fa-4x"style="padding-left:10px"></i>
                             </div>
-                            <h6 class="text-uppercase"style="padding-left:10px">Appintment</h6>
+                            <h6 class="text-uppercase"style="padding-left:10px">Appointments</h6>
                             <h1 class="display-4"style="padding-left:10px"><?php echo $acount?></h1>
                         </div>
                     </div>
@@ -65,8 +65,8 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
                             <div class="rotate">
                                 <i class="fa fa-share fa-4x"style="padding-left:10px"></i>
                             </div>
-                            <h6 class="text-uppercase"style="padding-left:10px">Shares</h6>
-                            <h1 class="display-4"style="padding-left:10px">36</h1>
+                            <h6 class="text-uppercase"style="padding-left:10px">Online Appointments</h6>
+                            <h1 class="display-4"style="padding-left:10px"><?php echo $aocount?></h1>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,9 @@
   ├─┬ Level 2
   │ ├── u : User
   │ ├── p : Patient
-  │ └── a : Appointment
+  │ ├── a : Appointment
+  │ ├── o : Online Appointment
+  │ └── do : Doctor
   └─┬ Level 3
     ├── v : View
     ├── i : Insert
@@ -22,22 +24,30 @@ function checkPerm($u = null, $p = null, $f = null) {
     '0' => array(
       'u' => array('v', 'i', 'u', 'd'),
       'p' => array('v', 'i', 'u', 'd'),
-      'a' => array('v', 'i', 'u', 'd')
+      'a' => array('v', 'i', 'u', 'd'),
+      'o' => array('v', 'i', 'u', 'd'),
+      'do' => array('v', 'i', 'u', 'd')
     ),
     '1' => array(
       'u' => null,
       'p' => array('v', 'i', 'u'),
-      'a' => array('v', 'u')
+      'a' => array('v', 'u'),
+      'o' => array('v'),
+      'do' => null
     ),
     '2' => array(
       'u' => null,
       'p' => array('v', 'i'),
-      'a' => array('v', 'i', 'u', 'd')
+      'a' => array('v', 'i', 'u', 'd'),
+      'o' => array('v', 'i',  'd'),
+      'do' => null
     ),
     '3' => array(
       'u' => null,
       'p' => array('v', 'i'),
-      'a' => array('v', 'i')
+      'a' => array('v', 'i'),
+      'o' => array('v', 'i', 'd'),
+      'do' => null
     )
   );
   if ($f == null) {

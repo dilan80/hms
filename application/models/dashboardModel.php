@@ -42,6 +42,23 @@
       }
     }
 
+    public function oappintmentcount($keyword = '') {
+      $q = $this->db
+        ->select('COUNT(*) as count')
+        ->from('onlineappointment AS a')
+
+        ->get();
+      if ($q->num_rows() > 0) {
+        $r = $q->result();
+        if (sizeof($r) > 0) {
+          return $r[0]->count;
+        } else {
+          return 0;
+        }
+      }
+    }
+
+
     public function appointmentcount($keyword = '') {
       $q = $this->db
         ->select('COUNT(*) as count')
@@ -64,6 +81,8 @@
     }
 
   }
+
+
 
 
 ?>

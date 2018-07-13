@@ -4,6 +4,7 @@ $this->load->view('nav/admin', array('active' => 'user', 'username' => $username
 <?php
 $types = array("0" => "Admin", "1" => "Doctor", "2" => "Nurse", "3" => "Attendent");
 $genders = array("0" => "Female", "1" => "Male");
+$status = array("0" => "Deactivated", "1" => "Activated")
 ?>
 <script>
   window.errorAlert = "<div class=\"alert alert-dismissible alert-danger\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button><p>{$ERR$}</p></div>";
@@ -86,6 +87,7 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #age")[0]).prop("disabled", true);
     $($("#modal_edit #add")[0]).prop("disabled", true);
     $($("#modal_edit #gen")[0]).prop("disabled", true);
+    $($("#modal_edit #stat")[0]).prop("disabled", true);
     const elems = $(`#users #u_${id} td`);
     const name = $(elems[1]).text();
 
@@ -144,6 +146,7 @@ $genders = array("0" => "Female", "1" => "Male");
     $($("#modal_edit #age")[0]).prop("disabled", false);
     $($("#modal_edit #add")[0]).prop("disabled", false);
     $($("#modal_edit #gen")[0]).prop("disabled", false);
+    $($("#modal_edit #stat")[0]).prop("disabled", false);
     const elems = $(`#users #u_${id} td`);
     const name = $(elems[1]).text();
 
@@ -423,6 +426,12 @@ $genders = array("0" => "Female", "1" => "Male");
                     <label for="gen" class="col-md-2 control-label">Gender</label>
                     <div class="col-md-10">
                       <?php echo form_dropdown('User Type', array("0" => "Female", "1" => "Male"), "male", array('class' => 'form-control', 'required' => TRUE, 'id' => 'gen')); ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="gen" class="col-md-2 control-label">Status</label>
+                    <div class="col-md-10">
+                      <?php echo form_dropdown('User Type', array("0" => "Deactivated", "1" => "Activated"), "---Select---", array('class' => 'form-control', 'required' => TRUE, 'id' => 'stat')); ?>
                     </div>
                   </div>
                 </fieldset>

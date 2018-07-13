@@ -15,6 +15,7 @@
         <li class="nav-item active">
         <a class="nav-link" href="<?php echo base_url('dashboard/'); ?>">Dashboard <span class="sr-only">(current)</span></a>
         </li>
+
         <?php
           if (!$this->session->has_userdata('type')) {
             noPerm();
@@ -39,7 +40,26 @@
         <li<?php if (isset($active) && $active === 'appointment') { echo ' class="active"'; } ?>>
           <a href="<?php echo base_url('appointment/'); ?>">Appointments<?php if (isset($active) && $active = 'appointment') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
         </li>
-        <?php } ?>
+        <?php
+          }
+          if (checkPerm($this->session->userdata('type'), 'o')) {
+        ?>
+
+        <li<?php if (isset($active) && $active === 'onlineappointment') { echo ' class="active"'; } ?>>
+          <a href="<?php echo base_url('onlineappointment/'); ?>">Online Appointments<?php if (isset($active) && $active = 'onlineappointment') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
+        </li>
+        <?php
+          }
+          if (checkPerm($this->session->userdata('type'), 'do')) {
+        ?>
+
+        <li<?php if (isset($active) && $active === 'doctor') { echo ' class="active"'; } ?>>
+          <a href="<?php echo base_url('doctor/'); ?>">Doctors<?php if (isset($active) && $active = 'doctor') { echo ' <span class="sr-only">(current)</span>'; } ?></a>
+        </li>
+        <?php
+          }
+
+      ?>
 
       </ul>
       <!-- <ul class="nav navbar-nav navbar-right">

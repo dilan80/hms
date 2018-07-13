@@ -8,7 +8,8 @@ $this->load->view('nav/admin', array('active' => 'appointment', 'username' => $u
     // const elems = $(`#users #u_${id} td`);
     // const name = $(elems[0]).text();
     $("#modal_del .error").html('');
-    $($("#modal_del .modal-title")[0]).text(`Are you sure to delete appointment #${id}?`);
+  //  $($("#modal_del .modal-title")[0]).text(`Are you sure to delete appointment #${id}?`);
+    $($("#modal_del .modal-title")[0]).text(`Are you sure to delete appointment '${name}'?`);
     $($("#modal_del #id")[0]).val(id);
     $($("#modal_del #loader")[0]).addClass("hidden");
     $($("#modal_del #content")[0]).removeClass("hidden");

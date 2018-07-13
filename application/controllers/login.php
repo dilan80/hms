@@ -23,7 +23,7 @@ class login extends CI_Controller {
 			if (!$this->userModel->login($this->input->post('u'), $this->input->post('p'), $this->input->post('r'))){
 				$message = array('typ' => 'ERR', 'msg' => 'Username or password incorrect.');
 			} else {
-				redirect('dashboard/');
+							redirect('dashboard/');
 			}
 		}
 		$data['content'] = $this->load->view('login', $message, TRUE);

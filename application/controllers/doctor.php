@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class user extends CI_Controller {
+class doctor extends CI_Controller {
 
 	public function __construct() {
     parent::__construct();
@@ -9,7 +9,7 @@ class user extends CI_Controller {
     $this->load->helper('userperm');
     $this->load->helper('form');
     $this->load->helper('url');
-		$this->load->model('userModel', '', TRUE);
+		$this->load->model('doctorModel', '', TRUE);
 	}
 
 	public function index() {
@@ -27,43 +27,43 @@ class user extends CI_Controller {
       $message['kwd'] = $this->uri->segment('4');
     }
 
-    $message['count'] = $this->userModel->count($message['kwd']);
-    $message['list'] = $this->userModel->fetch($message['page'], $message['kwd']);
+    $message['count'] = $this->doctorModel->count($message['kwd']);
+    $message['list'] = $this->doctorModel->fetch($message['page'], $message['kwd']);
 
     $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
 
-		$data['content'] = $this->load->view('user/list', $message, TRUE);
+		$data['content'] = $this->load->view('doctor/list', $message, TRUE);
 		$this->load->view('page', $data);
 
 
 	  }
 
-  public function get() {
+    public function get() {
 
-    if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'v')) {
-      noPerm(true);
-    }
+      if (!$this->session->has_userdata('type') || !checkPerm($this->session->userdata('type'), 'u', 'v')) {
+        noPerm(true);
+      }
 
-    $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
-    $req = json_decode($stream_clean);
-    if ($req->id) {
-      $u = $this->userModel->get($req->id);
-      if ($u) {
-        $u->password = NULL;
-        die(json_encode(array(
-          'success' => TRUE,
-          'message' => 'Action completed successfully!',
-          'data' => $u
-        )));
-      } else {
-        die(json_encode(array(
-          'success' => FALSE,
-          'message' => 'User does not exists!',
-          'data' => NULL
-        )));
+      $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);
+      $req = json_decode($stream_clean);
+      if ($req->id) {
+        $u = $this->doctorModel->get($req->id);
+        if ($u) {
+          $u->password = NULL;
+          die(json_encode(array(
+            'success' => TRUE,
+            'message' => 'Action completed successfully!',
+            'data' => $u
+          )));
+        } else {
+          die(json_encode(array(
+            'success' => FALSE,
+            'message' => 'User does not exists!',
+            'data' => NULL
+          )));
+        }
       }
     }
-  }
 
   public function update() {
 
@@ -119,7 +119,6 @@ class user extends CI_Controller {
            'address' => $req->add,
            'gender' => $req->gen,
 					 'spec' => $req->spec,
-
          ));
 				 if ($req->typ==1) {
 					 $stream_clean = $this->security->xss_clean($this->input->raw_input_stream);

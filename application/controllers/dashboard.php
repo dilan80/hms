@@ -29,6 +29,7 @@ class dashboard extends CI_Controller {
     $message['ucount'] = $this->dashboardModel->usercount($message['kwd']);
 		$message['pcount'] = $this->dashboardModel->patientcount($message['kwd']);
 		$message['acount'] = $this->dashboardModel->appointmentcount($message['kwd']);
+	  $message['aocount'] = $this->dashboardModel->oappintmentcount($message['kwd']);
 
     $message['username'] = $this->session->userdata('fname') . ' ' . $this->session->userdata('lname');
 		$data['content'] = $this->load->view('dashboard/list', $message, TRUE);
